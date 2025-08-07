@@ -1,0 +1,50 @@
+- AWS IAM
+  - Security Tools
+    - Credential Report
+      - báo cáo cấp account
+      - trạng thái tài khoản
+    - Access Advisor (Last Access)
+      - danh sách các quyền truy cập
+      - tần xuất sử dụng
+        - xoá các quyền không còn sử dụng
+        - quy tắc: trao quyền tối thiểu
+  - MFA
+    - MFA ảo (ứng dụng MFA trên điện thoại)
+    - U2F: Fido key
+    - Hardware key fob
+  - Policy
+    - cấu trúc JSON
+      - version
+      - id (ko bắt buộc)
+      - statement (nhóm lệnh)
+        - sid (ko bắt buộc)
+        - effect
+          - Allow
+          - Deny
+        - principal
+          - IAM User
+            - Truy cập bằng access key
+              - CLI tools
+              - SDK
+          - IAM Role
+            - gán thẳng vào services
+            - role phổ biến
+              - EC2 Instance Role
+              - Lambda
+              - CloudFormation
+        - action
+          - từ chối, cho phép API
+        - resource
+          - tài nguyên AWS
+        - condition
+          - điều kiện thực thi
+    - Identity-based
+      - gán cho IAM User
+      - không chia sẻ giữa các account
+    - Resource-base
+      - tài nguyên AWS chịu ảnh hưởng
+    - Password
+      - độ dài
+      - ký tự đặc biệt
+      - thời gian hết hạn
+      - chặn mật khẩu cũ

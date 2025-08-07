@@ -1,0 +1,30 @@
+- AWS Region
+  - Regions
+    - cluster of data center (cụm data center)
+    - services là region-scoped (cụm khu vực)
+    - cách chọn vùng
+      - compliance
+        - data governance
+        - legal requirements
+      - proximity
+        - giảm độ trễ
+      - available services
+        - services và feature không có sẵn ở mọi vùng
+      - pricing
+  - Availability Zone
+    - thấp nhất là 3, cao nhất là 6
+    - nhiều data center riêng biệt
+    - có khoảng cách tối thiểu 100km
+    - kết nối với nhau
+      - high bandwidth (băng thôi cao)
+      - ultra-low latency network (độ trễ thấp)
+  - Points of Presence  (Edge Location)
+    - điểm phân phối nội dung người dùng (CDN)
+    - Edge Cache
+      - lưu trữ nội dung ít phổ biến
+      - lưu trữ nội dung tải về nhiều
+      - giảm thiểu chi phí truyền tải
+  - Local Zone
+    - dịch vụ chính có sẵn
+    - độ trễ cực thấp
+    - kết nối tới mạng riêng

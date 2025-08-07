@@ -1,0 +1,235 @@
+- AWS EC2
+  - Security
+    - kiểm soát inbound, outbound ec2
+    - groups chỉ chứa allow rule
+    - dựa theo IP, các nhóm security khác
+    - kiểm soát theo port, dải ip, inbound và outbound
+    - gán cho nhiều ec2 instance
+    - khoá theo region, vpc
+      - mặc định
+        - inbound luôn chặn
+        - outbound luôn mở
+  - User Data
+    - chạy một lần duy nhất
+    - sử dụng quyền root
+    - scripts tác vụ khởi chạy
+  - Purchasing
+    - on-demand
+      - task job ngắn, không gián đoạn
+      - có thể tính trước giá
+      - giá tính theo giây sử dụng
+      - trả theo
+        - Linux, Windows: billing per second
+        - Other OS: billing per hour
+      - chi phí cao, không cần trả trước
+      - không có long-term commitment
+        - không chắc chắn sẽ hoạt động
+    - reserved
+      - 1- 3 years
+      - reserved instance
+        - long workloads
+        - giữ nguyên instance attribute
+          - Instance Type
+          - Region
+          - Tenancy
+          - OS
+        - thanh toán phí
+          - no upfront
+          - partial upfront
+          - all upfront
+        - đặt trước Instance Scope
+          - Regional
+          - Zonal
+        - Môi trường product ổn định
+        - Mua bán trên Reserved Instance Marketplace
+      - convertible reserved instance
+        - long workloads
+        - flexible instance
+          - EC2 instance type
+          - instance family
+          - OS
+          - Scope
+          - Tenancy
+    - saving plans
+      - 1 - 3 years
+      - long workload
+      - budget dựa theo mức sử dụng
+      - giám giá dựa trên long-term usage
+      - cam kết dùng theo budget
+      - nếu vượt budget
+        - tính phí theo On-Demand
+      - Khoá instance family và region
+      - có tính linh hoạt
+        - instance size
+        - os
+        - Tenancy
+          - Host
+          - Dedicated
+          - Default
+    - spot instance
+      - short workload (workload chạy lại nếu lỗi)
+        - Batch Jobs
+        - Data Analysis
+        - Image Processing
+        - any distributed workloads
+        - workloads có thể thay đổi giờ chạy và kết thúc
+      - giá rẻ, tiết kiệm chi phí nhất
+      - có thể mất instance
+      - không phù hợp task quan trọng
+    - dedicated host
+      - thuê hẳn máy chủ vật lý
+      - thanh toán
+        - On-demand: pay for second
+        - Reserved: 1 - 3 years
+      - gói đắt nhất
+      - phù hợp
+        - software có license riêng (BYOL)
+        - strong regulatory (tuân thủ quy định)
+        - compliance needs (yêu cầu nghiêm ngặt)
+    - dedicated instance
+      - không có phía người dùng nào khác dùng chung hardware
+      - instance chạy theo hardware thiết kế theo nhu cầu
+      - có thể chia sẻ cấu hình hardware instance cùng một tài khoản
+      - không kiểm soát instance placement
+        - thay đổi được vị trí
+    - capacity reservations
+      - đặt trước dung lượng trong AZ theo thời gian cụ thể
+      - truy cập EC2 capacity mọi lúc
+      - không có cam kết dùng trong bao lâu
+        - tạo và huỷ mọi lúc
+      - không giảm giá
+        - kết hợp với Region Reserved Instances và Savings Plans
+          - giảm chi phí
+      - Trả phí theo On-Demand mọi lúc dù chạy hay không
+      - phù hợp với vùng AZ chỉ định
+        - short-term
+        - không gián đoạn (uninterrupted)
+    - Spot Fleets
+      - Spot Instance + (tuỳ chọn) On-Demand Instance
+      - Allocate
+        - lowestPrice
+          - ưu tiên giá thấp nhất
+          - phù hợp short workload
+        - diversified
+          - distributed across
+          - phù hợp tính khả dụng tốt, long workloads
+        - capacityOptimized
+          - nhóm optimal capacity theo số lượng instance
+        - priceCapacityOptimized
+          - recommended
+          - nhóm highest capacity có sẵn, chọn bản có giá thấp nhất
+          - lựa chọn tốt cho tất cả workloads
+      - Cho phép tự động yêu cầu Spot Instance giá thấp nhất
+  - Instance Type
+    - General
+      - web server
+      - code repository
+      - cân bằng tiêu chí
+        - compute
+        - memory
+        - networking
+    - Compute
+      - yêu cầu cần hiệu năng cao
+      - sử dụng
+        - Batch Processing
+        - Media transcode
+        - high performance web server
+        - high performance computing (HPC)
+        - maching learning
+        - game servers
+    - Memory
+      - fast performance với datasets trong bộ nhớ
+      - sử dụng
+        - RDB, NoSQL
+        - web scale cache stores
+        - In-memory data Business Intelligence
+        - processing unstructured data
+    - Accelerated
+    - Storage
+      - truy cập và lưu trữ dữ liệu lớn trên cục bộ
+      - sử dụng
+        - Online Transaction Processing
+        - RDB, NoSQL DB
+        - cache in-memory DB
+        - Distributed file system
+    - Feature
+    - Performance
+  - Elastic IP
+    - start/ stop instance
+      - public ip change
+    - fixed public ip
+      - no change after restart
+    - attach one instance only
+    - mask failed instance
+      - move/mapping another instance
+    - 5 elastic ip/each account
+      - can increase by aws
+    - avoid using
+      - poor architecture decisions
+      - should register DNS with random public ip
+      - should use Load Blancer
+        - no public IP required
+  - Placement Groups
+    - Cluster
+      - low latency
+      - same AZ
+      - ưu điểm
+        - mạng ổn định (10gbps băng thông giữa instance)
+      - nhược điểm
+        - AZ fails
+          - all instance fails same time
+      - use case
+        - Big Data job cần hoàn thành nhanh
+        - Application cần extremely low latency và mạng nhanh
+    - Spread
+      - across az và hardware
+      - use for critical applications
+      - ưu điểm
+        - sử dụng nhiều AZ khác nhau, phần cứng khác nhau
+        - giảm thiểu rủi ro sự cố lỗi đồng thời
+      - nhược điểm
+        - max 7 ec2 instance/group/AZ
+      - use case
+        - Application yêu cầu độ sẵn sàng cao
+        - Critical Application cần cách ly khỏi sự cố lỗi
+    - Partition
+      - across many partititon
+      - scale to 100 ec2 instance
+      - tối đa 7 partition mỗi AZ
+      - span across nhiều AZ trên một Region
+      - không chia sẻ giá phần cứng mỗi instance trong một partition
+      - một partition hỏng
+        - ảnh hưởng tới nhiều ec2 instance
+        - không ảnh hưởng tới partition khác
+      - access partition information
+        - metadata services
+      - use case
+        - HDFS
+        - HBase
+        - Cassandra
+        - Kafka
+  - Elastic Network Interface
+    - đại diện cho một card mạng ảo
+    - các thành phần
+      - private ipv4 chính
+      - một hoặc nhiều ipv4 phụ
+      - một elastic ipv4 ứng với một private ipv4
+      - một public ipv4
+      - một hoặc nhiều security group
+      - MAC address
+    - có thể tạo ENI độc lập khác cho ec2 instance
+      - gán hoặc di chuyển khi ec2 instance lỗi
+      - dự phòng sự cố
+    - eni phụ thuộc vào một AZ
+  - Hibernate
+    - RAM state sẽ được giữ lại
+      - khởi động instance nhanh hơn
+    - RAM có ít nhất 150GB
+    - Hibernate không quá 60 ngày
+    - RAM state lưu ở EBS volume (root) - bắt buộc
+      - EBS volume cần phải mã hoá
+      - cần đủ dung lượng trống
+    - Use case
+      - tiến trình long-running
+      - lưu RAM state
+      - services mất nhiều thời gian khởi tạo
